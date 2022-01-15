@@ -50,7 +50,7 @@
           setLetter($id,$username,$state, $_REQUEST['letter'],$reg);
         };
         /* Mira si hay un ganador */
-        if(checkWinner($id,$reg) == 0){
+        if(checkWinner($id,$reg) === 0){
           if($reg['turn'] == $state){
             /* Turno del jugador */
             play($id, $reg);
@@ -313,7 +313,7 @@
       /* host */
       $x = 0;
       for($i = 0; $i < strlen($reg['guestWord']); $i++){
-        if(str_contains($reg['hostLetters'] ,$reg['guestWord'][$i])){
+        if(strpos($reg['hostLetters'] ,$reg['guestWord'][$i])){
          $x++;
         }
       }
@@ -323,7 +323,7 @@
       /* guest */
       $x = 0;
       for($i = 0; $i < strlen($reg['hostWord']); $i++){
-        if(str_contains($reg['guestLetters'] ,$reg['hostWord'][$i])){
+        if(strpos($reg['guestLetters'] ,$reg['hostWord'][$i])){
           $x++;
         }
       }
@@ -340,24 +340,24 @@
       if($state == 'host'){
         $word = removeDuplicateChar($reg['guestWord']);
         for($i = 0; $i < strlen($word); $i++){
-          if(str_contains($reg['hostLetters'] ,$word[$i])){
+          if(strpos($reg['hostLetters'] ,$word[$i])){
            $x++;
           }
         }
         $y = strlen($reg['hostLetters'])-1;
-        if(str_contains($reg['hostLetters'],'ñ')){
+        if(strpos($reg['hostLetters'],'ñ')){
           $y--;
         }
         return $y-$x;
       }else{
         $word = removeDuplicateChar($reg['hostWord']);
         for($i = 0; $i < strlen($word); $i++){
-          if(str_contains($reg['guestLetters'] ,$word[$i])){
+          if(strpos($reg['guestLetters'] ,$word[$i])){
             $x++;
           }
         }
         $y = strlen($reg['guestLetters'])-1;
-        if(str_contains($reg['guestLetters'],'ñ')){
+        if(strpos($reg['guestLetters'],'ñ')){
           $y--;
         }
         return ($y-$x) ;
@@ -368,7 +368,7 @@
     function getLetters($state,$reg){
       if($state == 'host'){
         for($i = 0; $i < strlen($reg['guestWord']); $i++){
-          if(str_contains($reg['hostLetters'] ,$reg['guestWord'][$i])){
+          if(strpos($reg['hostLetters'] ,$reg['guestWord'][$i])){
             echo "<span>".$reg['guestWord'][$i]."</span>";
           }else{
             echo "<span class='bar'></span>";
@@ -376,7 +376,7 @@
         }
       }else{
         for($i = 0; $i < strlen($reg['hostWord']); $i++){
-          if(str_contains($reg['guestLetters'] ,$reg['hostWord'][$i])){
+          if(strpos($reg['guestLetters'] ,$reg['hostWord'][$i])){
             echo "<span>".$reg['hostWord'][$i]."</span>";
           }else{
             echo "<span class='bar'></span>";
@@ -396,39 +396,39 @@
       ?>
       <!-- Q-P -->
       <div>
-          <button onclick="window.location.href='game.play.php?username=<?php echo $_REQUEST['username']?>&id=<?php echo $_REQUEST['id']?>&state=<?php echo $_REQUEST['state']?>&letter=q'" <?php if(str_contains($reg[$state],'q')){echo 'class="disabled"';}; ?>>Q</button>
-          <button onclick="window.location.href='game.play.php?username=<?php echo $_REQUEST['username']?>&id=<?php echo $_REQUEST['id']?>&state=<?php echo $_REQUEST['state']?>&letter=w'" <?php if(str_contains($reg[$state],'w')){echo 'class="disabled"';};; ?>>W</button>
-          <button onclick="window.location.href='game.play.php?username=<?php echo $_REQUEST['username']?>&id=<?php echo $_REQUEST['id']?>&state=<?php echo $_REQUEST['state']?>&letter=e'" <?php if(str_contains($reg[$state],'e')){echo 'class="disabled"';};; ?>>E</button>
-          <button onclick="window.location.href='game.play.php?username=<?php echo $_REQUEST['username']?>&id=<?php echo $_REQUEST['id']?>&state=<?php echo $_REQUEST['state']?>&letter=r'" <?php if(str_contains($reg[$state],'r')){echo 'class="disabled"';};; ?>>R</button>
-          <button onclick="window.location.href='game.play.php?username=<?php echo $_REQUEST['username']?>&id=<?php echo $_REQUEST['id']?>&state=<?php echo $_REQUEST['state']?>&letter=t'" <?php if(str_contains($reg[$state],'t')){echo 'class="disabled"';};; ?>>T</button>
-          <button onclick="window.location.href='game.play.php?username=<?php echo $_REQUEST['username']?>&id=<?php echo $_REQUEST['id']?>&state=<?php echo $_REQUEST['state']?>&letter=y'" <?php if(str_contains($reg[$state],'y')){echo 'class="disabled"';};; ?>>Y</button>
-          <button onclick="window.location.href='game.play.php?username=<?php echo $_REQUEST['username']?>&id=<?php echo $_REQUEST['id']?>&state=<?php echo $_REQUEST['state']?>&letter=u'" <?php if(str_contains($reg[$state],'u')){echo 'class="disabled"';};; ?>>U</button>
-          <button onclick="window.location.href='game.play.php?username=<?php echo $_REQUEST['username']?>&id=<?php echo $_REQUEST['id']?>&state=<?php echo $_REQUEST['state']?>&letter=i'" <?php if(str_contains($reg[$state],'i')){echo 'class="disabled"';};; ?>>I</button>
-          <button onclick="window.location.href='game.play.php?username=<?php echo $_REQUEST['username']?>&id=<?php echo $_REQUEST['id']?>&state=<?php echo $_REQUEST['state']?>&letter=o'" <?php if(str_contains($reg[$state],'o')){echo 'class="disabled"';};; ?>>O</button>
-          <button onclick="window.location.href='game.play.php?username=<?php echo $_REQUEST['username']?>&id=<?php echo $_REQUEST['id']?>&state=<?php echo $_REQUEST['state']?>&letter=p'" <?php if(str_contains($reg[$state],'p')){echo 'class="disabled"';};; ?>>P</button>
+          <button onclick="window.location.href='game.play.php?username=<?php echo $_REQUEST['username']?>&id=<?php echo $_REQUEST['id']?>&state=<?php echo $_REQUEST['state']?>&letter=q'" <?php if(strpos($reg[$state],'q')){echo 'class="disabled"';}; ?>>Q</button>
+          <button onclick="window.location.href='game.play.php?username=<?php echo $_REQUEST['username']?>&id=<?php echo $_REQUEST['id']?>&state=<?php echo $_REQUEST['state']?>&letter=w'" <?php if(strpos($reg[$state],'w')){echo 'class="disabled"';};; ?>>W</button>
+          <button onclick="window.location.href='game.play.php?username=<?php echo $_REQUEST['username']?>&id=<?php echo $_REQUEST['id']?>&state=<?php echo $_REQUEST['state']?>&letter=e'" <?php if(strpos($reg[$state],'e')){echo 'class="disabled"';};; ?>>E</button>
+          <button onclick="window.location.href='game.play.php?username=<?php echo $_REQUEST['username']?>&id=<?php echo $_REQUEST['id']?>&state=<?php echo $_REQUEST['state']?>&letter=r'" <?php if(strpos($reg[$state],'r')){echo 'class="disabled"';};; ?>>R</button>
+          <button onclick="window.location.href='game.play.php?username=<?php echo $_REQUEST['username']?>&id=<?php echo $_REQUEST['id']?>&state=<?php echo $_REQUEST['state']?>&letter=t'" <?php if(strpos($reg[$state],'t')){echo 'class="disabled"';};; ?>>T</button>
+          <button onclick="window.location.href='game.play.php?username=<?php echo $_REQUEST['username']?>&id=<?php echo $_REQUEST['id']?>&state=<?php echo $_REQUEST['state']?>&letter=y'" <?php if(strpos($reg[$state],'y')){echo 'class="disabled"';};; ?>>Y</button>
+          <button onclick="window.location.href='game.play.php?username=<?php echo $_REQUEST['username']?>&id=<?php echo $_REQUEST['id']?>&state=<?php echo $_REQUEST['state']?>&letter=u'" <?php if(strpos($reg[$state],'u')){echo 'class="disabled"';};; ?>>U</button>
+          <button onclick="window.location.href='game.play.php?username=<?php echo $_REQUEST['username']?>&id=<?php echo $_REQUEST['id']?>&state=<?php echo $_REQUEST['state']?>&letter=i'" <?php if(strpos($reg[$state],'i')){echo 'class="disabled"';};; ?>>I</button>
+          <button onclick="window.location.href='game.play.php?username=<?php echo $_REQUEST['username']?>&id=<?php echo $_REQUEST['id']?>&state=<?php echo $_REQUEST['state']?>&letter=o'" <?php if(strpos($reg[$state],'o')){echo 'class="disabled"';};; ?>>O</button>
+          <button onclick="window.location.href='game.play.php?username=<?php echo $_REQUEST['username']?>&id=<?php echo $_REQUEST['id']?>&state=<?php echo $_REQUEST['state']?>&letter=p'" <?php if(strpos($reg[$state],'p')){echo 'class="disabled"';};; ?>>P</button>
       </div>
       <!-- A-Ñ -->
       <div>
-          <button onclick="window.location.href='game.play.php?username=<?php echo $_REQUEST['username']?>&id=<?php echo $_REQUEST['id']?>&state=<?php echo $_REQUEST['state']?>&letter=a'" <?php if(str_contains($reg[$state],'a')){echo 'class="disabled"';}; ?>>A</button>
-          <button onclick="window.location.href='game.play.php?username=<?php echo $_REQUEST['username']?>&id=<?php echo $_REQUEST['id']?>&state=<?php echo $_REQUEST['state']?>&letter=s'" <?php if(str_contains($reg[$state],'s')){echo 'class="disabled"';};; ?>>S</button>
-          <button onclick="window.location.href='game.play.php?username=<?php echo $_REQUEST['username']?>&id=<?php echo $_REQUEST['id']?>&state=<?php echo $_REQUEST['state']?>&letter=d'" <?php if(str_contains($reg[$state],'d')){echo 'class="disabled"';};; ?>>D</button>
-          <button onclick="window.location.href='game.play.php?username=<?php echo $_REQUEST['username']?>&id=<?php echo $_REQUEST['id']?>&state=<?php echo $_REQUEST['state']?>&letter=f'" <?php if(str_contains($reg[$state],'f')){echo 'class="disabled"';};; ?>>F</button>
-          <button onclick="window.location.href='game.play.php?username=<?php echo $_REQUEST['username']?>&id=<?php echo $_REQUEST['id']?>&state=<?php echo $_REQUEST['state']?>&letter=g'" <?php if(str_contains($reg[$state],'g')){echo 'class="disabled"';};; ?>>G</button>
-          <button onclick="window.location.href='game.play.php?username=<?php echo $_REQUEST['username']?>&id=<?php echo $_REQUEST['id']?>&state=<?php echo $_REQUEST['state']?>&letter=h'" <?php if(str_contains($reg[$state],'h')){echo 'class="disabled"';};; ?>>H</button>
-          <button onclick="window.location.href='game.play.php?username=<?php echo $_REQUEST['username']?>&id=<?php echo $_REQUEST['id']?>&state=<?php echo $_REQUEST['state']?>&letter=j'" <?php if(str_contains($reg[$state],'j')){echo 'class="disabled"';};; ?>>J</button>
-          <button onclick="window.location.href='game.play.php?username=<?php echo $_REQUEST['username']?>&id=<?php echo $_REQUEST['id']?>&state=<?php echo $_REQUEST['state']?>&letter=k'" <?php if(str_contains($reg[$state],'k')){echo 'class="disabled"';};; ?>>K</button>
-          <button onclick="window.location.href='game.play.php?username=<?php echo $_REQUEST['username']?>&id=<?php echo $_REQUEST['id']?>&state=<?php echo $_REQUEST['state']?>&letter=l'" <?php if(str_contains($reg[$state],'l')){echo 'class="disabled"';};; ?>>L</button>
-          <button onclick="window.location.href='game.play.php?username=<?php echo $_REQUEST['username']?>&id=<?php echo $_REQUEST['id']?>&state=<?php echo $_REQUEST['state']?>&letter=ñ'" <?php if(str_contains($reg[$state],'ñ')){echo 'class="disabled"';};; ?>>Ñ</button>
+          <button onclick="window.location.href='game.play.php?username=<?php echo $_REQUEST['username']?>&id=<?php echo $_REQUEST['id']?>&state=<?php echo $_REQUEST['state']?>&letter=a'" <?php if(strpos($reg[$state],'a')){echo 'class="disabled"';}; ?>>A</button>
+          <button onclick="window.location.href='game.play.php?username=<?php echo $_REQUEST['username']?>&id=<?php echo $_REQUEST['id']?>&state=<?php echo $_REQUEST['state']?>&letter=s'" <?php if(strpos($reg[$state],'s')){echo 'class="disabled"';};; ?>>S</button>
+          <button onclick="window.location.href='game.play.php?username=<?php echo $_REQUEST['username']?>&id=<?php echo $_REQUEST['id']?>&state=<?php echo $_REQUEST['state']?>&letter=d'" <?php if(strpos($reg[$state],'d')){echo 'class="disabled"';};; ?>>D</button>
+          <button onclick="window.location.href='game.play.php?username=<?php echo $_REQUEST['username']?>&id=<?php echo $_REQUEST['id']?>&state=<?php echo $_REQUEST['state']?>&letter=f'" <?php if(strpos($reg[$state],'f')){echo 'class="disabled"';};; ?>>F</button>
+          <button onclick="window.location.href='game.play.php?username=<?php echo $_REQUEST['username']?>&id=<?php echo $_REQUEST['id']?>&state=<?php echo $_REQUEST['state']?>&letter=g'" <?php if(strpos($reg[$state],'g')){echo 'class="disabled"';};; ?>>G</button>
+          <button onclick="window.location.href='game.play.php?username=<?php echo $_REQUEST['username']?>&id=<?php echo $_REQUEST['id']?>&state=<?php echo $_REQUEST['state']?>&letter=h'" <?php if(strpos($reg[$state],'h')){echo 'class="disabled"';};; ?>>H</button>
+          <button onclick="window.location.href='game.play.php?username=<?php echo $_REQUEST['username']?>&id=<?php echo $_REQUEST['id']?>&state=<?php echo $_REQUEST['state']?>&letter=j'" <?php if(strpos($reg[$state],'j')){echo 'class="disabled"';};; ?>>J</button>
+          <button onclick="window.location.href='game.play.php?username=<?php echo $_REQUEST['username']?>&id=<?php echo $_REQUEST['id']?>&state=<?php echo $_REQUEST['state']?>&letter=k'" <?php if(strpos($reg[$state],'k')){echo 'class="disabled"';};; ?>>K</button>
+          <button onclick="window.location.href='game.play.php?username=<?php echo $_REQUEST['username']?>&id=<?php echo $_REQUEST['id']?>&state=<?php echo $_REQUEST['state']?>&letter=l'" <?php if(strpos($reg[$state],'l')){echo 'class="disabled"';};; ?>>L</button>
+          <button onclick="window.location.href='game.play.php?username=<?php echo $_REQUEST['username']?>&id=<?php echo $_REQUEST['id']?>&state=<?php echo $_REQUEST['state']?>&letter=ñ'" <?php if(strpos($reg[$state],'ñ')){echo 'class="disabled"';};; ?>>Ñ</button>
       </div>
       <!-- Z-M -->
       <div>
-          <button onclick="window.location.href='game.play.php?username=<?php echo $_REQUEST['username']?>&id=<?php echo $_REQUEST['id']?>&state=<?php echo $_REQUEST['state']?>&letter=z'" <?php if(str_contains($reg[$state],'z')){echo 'class="disabled"';};; ?>>Z</button>
-          <button onclick="window.location.href='game.play.php?username=<?php echo $_REQUEST['username']?>&id=<?php echo $_REQUEST['id']?>&state=<?php echo $_REQUEST['state']?>&letter=x'" <?php if(str_contains($reg[$state],'x')){echo 'class="disabled"';};; ?>>X</button>
-          <button onclick="window.location.href='game.play.php?username=<?php echo $_REQUEST['username']?>&id=<?php echo $_REQUEST['id']?>&state=<?php echo $_REQUEST['state']?>&letter=c'" <?php if(str_contains($reg[$state],'c')){echo 'class="disabled"';};; ?>>C</button>
-          <button onclick="window.location.href='game.play.php?username=<?php echo $_REQUEST['username']?>&id=<?php echo $_REQUEST['id']?>&state=<?php echo $_REQUEST['state']?>&letter=v'" <?php if(str_contains($reg[$state],'v')){echo 'class="disabled"';};; ?>>V</button>
-          <button onclick="window.location.href='game.play.php?username=<?php echo $_REQUEST['username']?>&id=<?php echo $_REQUEST['id']?>&state=<?php echo $_REQUEST['state']?>&letter=b'" <?php if(str_contains($reg[$state],'b')){echo 'class="disabled"';};; ?>>B</button>
-          <button onclick="window.location.href='game.play.php?username=<?php echo $_REQUEST['username']?>&id=<?php echo $_REQUEST['id']?>&state=<?php echo $_REQUEST['state']?>&letter=n'" <?php if(str_contains($reg[$state],'n')){echo 'class="disabled"';};; ?>>N</button>
-          <button onclick="window.location.href='game.play.php?username=<?php echo $_REQUEST['username']?>&id=<?php echo $_REQUEST['id']?>&state=<?php echo $_REQUEST['state']?>&letter=m'" <?php if(str_contains($reg[$state],'m')){echo 'class="disabled"';};; ?>>M</button>
+          <button onclick="window.location.href='game.play.php?username=<?php echo $_REQUEST['username']?>&id=<?php echo $_REQUEST['id']?>&state=<?php echo $_REQUEST['state']?>&letter=z'" <?php if(strpos($reg[$state],'z')){echo 'class="disabled"';};; ?>>Z</button>
+          <button onclick="window.location.href='game.play.php?username=<?php echo $_REQUEST['username']?>&id=<?php echo $_REQUEST['id']?>&state=<?php echo $_REQUEST['state']?>&letter=x'" <?php if(strpos($reg[$state],'x')){echo 'class="disabled"';};; ?>>X</button>
+          <button onclick="window.location.href='game.play.php?username=<?php echo $_REQUEST['username']?>&id=<?php echo $_REQUEST['id']?>&state=<?php echo $_REQUEST['state']?>&letter=c'" <?php if(strpos($reg[$state],'c')){echo 'class="disabled"';};; ?>>C</button>
+          <button onclick="window.location.href='game.play.php?username=<?php echo $_REQUEST['username']?>&id=<?php echo $_REQUEST['id']?>&state=<?php echo $_REQUEST['state']?>&letter=v'" <?php if(strpos($reg[$state],'v')){echo 'class="disabled"';};; ?>>V</button>
+          <button onclick="window.location.href='game.play.php?username=<?php echo $_REQUEST['username']?>&id=<?php echo $_REQUEST['id']?>&state=<?php echo $_REQUEST['state']?>&letter=b'" <?php if(strpos($reg[$state],'b')){echo 'class="disabled"';};; ?>>B</button>
+          <button onclick="window.location.href='game.play.php?username=<?php echo $_REQUEST['username']?>&id=<?php echo $_REQUEST['id']?>&state=<?php echo $_REQUEST['state']?>&letter=n'" <?php if(strpos($reg[$state],'n')){echo 'class="disabled"';};; ?>>N</button>
+          <button onclick="window.location.href='game.play.php?username=<?php echo $_REQUEST['username']?>&id=<?php echo $_REQUEST['id']?>&state=<?php echo $_REQUEST['state']?>&letter=m'" <?php if(strpos($reg[$state],'m')){echo 'class="disabled"';};; ?>>M</button>
       </div>
       <?php
     };
