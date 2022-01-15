@@ -1,0 +1,169 @@
+:root{
+  --c-error: #f12020;
+  --c-default-blue: #5a72fd;
+  --c-secundari-blue: #3a57fa;
+  --c-white:#fff;
+  --c-border: #dadce0;
+}
+.home > img {
+  object-fit: cover;
+  filter: grayscale(1);
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  z-index: -1;
+}
+
+.home section{
+  width: 400px;
+  height: 100vh;
+  background-color: white;
+
+  top: 0;
+  left: 0;
+}
+
+/* logo */
+.home .logo{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 25%;
+  user-select: none;
+  margin-bottom: 35px;
+}
+
+.home .logo h1:nth-child(1){
+  font-weight: 500;
+  width: fit-content;
+  font-size: 50px;
+  grid-area: "connect";
+}
+.home .logo h1:nth-child(2){
+  font-weight: 500;
+  width: fit-content;
+  font-size: 79px;
+  transform: translateY(-26px) translateX(-7px);
+}
+
+.home form{
+  padding: 25px;
+}
+
+/* ----- buttons ----- */
+.home .btn-box{
+  margin: 25px 0 5px 0;
+  display: flex;
+  justify-content: end;
+
+}
+.home .btn-box input{
+  padding: .5rem 1.5625rem;
+  border: none;
+  cursor: pointer;
+  background-color: var(--c-white);
+  border-radius: .2525rem;
+  font-weight: 500;
+  transition: background-color 0.3s;
+}
+
+.home .btn-box input:last-child{
+  background-color: var(--c-default-blue);
+  color:var(--c-white);
+}
+.home .btn-box input:last-child:hover{
+  background-color: var(--c-secundari-blue);
+}
+
+/* ----- error text ----- */
+.home .spanError{
+  display: none;
+  gap: 5px;
+  color: var(--c-error);
+  margin-bottom: 5px;
+}
+
+/* ----- checkbox mostrar contraseña -----  */
+.home .showPassword{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.home .showPassword input, label{
+  width: auto;
+  cursor: pointer;
+  user-select: none; 
+}
+.home .showPassword input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  padding: 5px;
+}
+
+/* ----- text-field box ----- */
+.home .inputBox{
+  width: 100%;
+  overflow-x: none;
+}
+.home .inputBox form{
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+/* passwords box*/
+.home .signBox .passwords{
+  display: flex;
+  gap: 10px;
+}
+
+/* ----- text-field input/textarea -----*/
+.home .text-field {
+  position: relative;
+  margin: .625rem 0rem;
+  width: 100%;
+}
+.home .text-field input, .text-field textarea {
+  width: 100%;
+  outline: none;
+  border: thin solid var(--c-border);
+  color: rgb(0, 0, 0);
+  padding: .725rem .3125rem;
+  border-radius: .3125rem;
+}
+.home .text-field textarea {
+  resize: none;
+  height: 200px;
+}
+.home .text-field input:focus, .text-field textarea:focus{
+  box-shadow:  0 0 0 .125rem  var(--c-default-blue);
+  background-color:var(--c-white);
+}
+.text-field input:focus ~ .label, .text-field input:valid ~ .label,
+.home .text-field textarea:focus ~ .label, .text-field textarea:valid ~ .label {
+  top: -0.625rem;
+  left: .625rem;
+  font-size: .9375rem;
+  background-color:var(--c-white);
+  padding:0 .125rem 0 .3125rem;
+}
+.home .text-field.error input, .text-field.error textarea {
+  border: thin solid var(--c-error);
+}
+.home .text-field.error input:focus, .text-field.error textarea:focus {
+  box-shadow:  0 0 0 .125rem var(--c-error);
+}
+.text-field.error .label, .text-field.error input:focus ~ .label,
+.home .text-field.error textarea:focus ~ .label{
+  color: red !important;
+}
+.home .text-field .label {
+  color: #999;
+  position: absolute;
+  pointer-events: none;
+  left: .625rem;
+  top: .725rem;
+  transition: 0.2s;
+}
