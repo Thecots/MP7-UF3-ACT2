@@ -31,7 +31,7 @@
   
     
     if(isset($_REQUEST['game'])){
-      /* Empieza la partida */
+      /* Se necesita palabra*/
       if(isset($_REQUEST['word'])){
         /* Guarda la palabra */
         saveWord($id,$username,$state, $_REQUEST['word']);
@@ -44,16 +44,24 @@
         /* Esperando palabra de los jugadores */
         waitingWord($id);
       }else{
-        /*  */
+        /* partida */
         if(isset($_REQUEST['letter'])){
+          /* Guarda letra + cambia de turno */
           setLetter($id,$username,$state, $_REQUEST['letter'],$reg);
         }
-        checkWinner($id);
-        if($reg['turn'] == $state){
-          play($id, $reg);
+        /* Mira si hay un ganador */
+        if(checkWinner($id,$reg) == 0){
+          if($reg['turn'] == $state){
+            /* Turno del jugador */
+            play($id, $reg);
+          }else{
+            /* Jugador en espera */
+            waiting($id,$reg);
+          };
         }else{
-          waiting($id);
-        };
+          winnerScreen($id,$reg);
+        }
+        
       }
     }
 
@@ -81,30 +89,72 @@
             </div>
           </div>
           <div class="info">
-            <?php  ?>
-          </div>
+            <div class="hostLives">
+              <h1>TUS VIDAS</h1>
+              <div class="lives">
+               <?php printLives($_REQUEST['state'], $reg) ?> 
+              </div>
+            </div>
+            <div class="guestGame">
+              <h1>RIVAL</h1>
+              <div class="guestBoard">
+                <img src="./img/4.png">
+              </div>
+              <div class="guestLetters">
+                <?php getLetters($_REQUEST['state'] == 'host' ? 'guest' : 'host',$reg) ?>
+              </div>
+              <div class="guestLives">
+              <?php printLives($_REQUEST['state'] == 'host' ? 'guest' : 'host', $reg) ?> 
 
+              </div>
+            </div>
+          </div>
         </section>
-        <script>
-        /* setTimeout(() => {
-          window.location.reload();
-        }, 1000); */
-      </script>
       </main>
       <?php
     }
 
     /* Jugador en espera */
-    function waiting($id){
+    function waiting($id,$reg){
       ?>
       <main>
         <header>
           <h1 class="searchH1">Partida <?php echo $id ?> - Espernado movimiento del rival</h1>
-          <div class="buttons">
-            <a style="display: none;"></a>
-            <a style="display: none;"></a>
-          </div>
         </header>
+      <section class="game">
+          <div class="board">
+             <div class="img">
+              <img src='./img/<?php echo getLives($_REQUEST['state'],$reg); ?>.png'>
+            </div>
+            <div class="foundedLetters">
+              <?php getLetters($_REQUEST['state'],$reg); ?>
+            </div>
+            <div class="keyboard">
+            <?php dissabledkeyboard($_REQUEST['state'],$reg) ?>
+            </div>
+          </div>
+          <div class="info">
+            <div class="hostLives">
+              <h1>TUS VIDAS</h1>
+              <div class="lives">
+               <?php printLives($_REQUEST['state'], $reg) ?> 
+              </div>
+            </div>
+            <div class="guestGame">
+              <h1>RIVAL</h1>
+              <div class="guestBoard">
+                <img src="./img/4.png">
+              </div>
+              <div class="guestLetters">
+                <?php getLetters($_REQUEST['state'] == 'host' ? 'guest' : 'host',$reg) ?>
+              </div>
+              <div class="guestLives">
+              <?php printLives($_REQUEST['state'] == 'host' ? 'guest' : 'host', $reg) ?> 
+
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
       <script>
         setTimeout(() => {
@@ -120,10 +170,6 @@
       <main>
         <header>
           <h1 class="searchH1">Partida <?php echo $id ?> - Espernado palabra del rival</h1>
-          <div class="buttons">
-            <a style="display: none;"></a>
-            <a style="display: none;"></a>
-          </div>
         </header>
       </main>
       <script>
@@ -133,6 +179,62 @@
       </script>
     <?php
     };
+
+    /* Final Pantalla ganador */
+    function  winnerScreen($id,$reg){
+      ?>
+      <main>
+        <header>
+          <h1 >Partida <?php echo $id ?> - <?php
+            if(checkWinner($id,$reg) == $_REQUEST['state']){
+              echo "Has ganado la partida!";
+            }else{
+              echo "Has perdido";
+            }
+          ?></h1>
+          <div class="buttons">
+            <a style="display: none;"></a>
+            <a style="display: none;"></a>
+            <a href="game.search.php?username=<?php echo $_REQUEST['username']?>&id=<?php echo $_REQUEST['id']?>">salir</a>
+          </div>
+        </header>
+      </main>
+      <section class="game">
+          <div class="board">
+             <div class="img">
+              <img src='./img/<?php echo getLives($_REQUEST['state'],$reg); ?>.png'>
+            </div>
+            <div class="foundedLetters">
+              <?php getLetters($_REQUEST['state'],$reg); ?>
+            </div>
+            <div class="keyboard">
+            <?php dissabledkeyboard($_REQUEST['state'],$reg) ?>
+            </div>
+          </div>
+          <div class="info">
+            <div class="hostLives">
+              <h1>TUS VIDAS</h1>
+              <div class="lives">
+               <?php printLives($_REQUEST['state'], $reg) ?> 
+              </div>
+            </div>
+            <div class="guestGame">
+              <h1>RIVAL</h1>
+              <div class="guestBoard">
+                <img src="./img/4.png">
+              </div>
+              <div class="guestLetters">
+                <?php getLetters($_REQUEST['state'] == 'host' ? 'guest' : 'host',$reg) ?>
+              </div>
+              <div class="guestLives">
+              <?php printLives($_REQUEST['state'] == 'host' ? 'guest' : 'host', $reg) ?> 
+
+              </div>
+            </div>
+          </div>
+        </section>
+    <?php
+    }
 
     /* Selecinar una palabra */
     function setWord($id,$username,$state){
@@ -193,7 +295,42 @@
     };
 
     /* Mira si hay un ganador */
-    function checkWinner($id){
+    function checkWinner($id,$reg){
+      $livesHost = 7-getLives('host',$reg);
+      $livesGuest = 7-getLives('guest',$reg);
+      $con = mysqli_connect("localhost","daw_user","P@ssw0rd","ahorcado") or exit(mysqli_connect_error());
+      
+      /* control vidas */
+      if($livesHost == 0 or $livesGuest == 0){
+        if($livesHost == 0){
+          return 'guest';
+        }else{
+          return 'host';
+        }
+      }
+
+      /* control palabra */
+      /* host */
+      $x = 0;
+      for($i = 0; $i < strlen($reg['guestWord']); $i++){
+        if(str_contains($reg['hostLetters'] ,$reg['guestWord'][$i])){
+         $x++;
+        }
+      }
+      if($x == strlen($reg['guestWord'])){
+        return 'host';
+      };
+      /* guest */
+      $x = 0;
+      for($i = 0; $i < strlen($reg['hostWord']); $i++){
+        if(str_contains($reg['guestLetters'] ,$reg['hostWord'][$i])){
+          $x++;
+        }
+      }
+      if($x == strlen($reg['hostWord'])){
+        return 'guest';
+      };
+      
       return 0;
     };
     
@@ -201,8 +338,9 @@
     function getLives($state,$reg){
       $x = 0;
       if($state == 'host'){
-        for($i = 0; $i < strlen($reg['guestWord']); $i++){
-          if(str_contains($reg['hostLetters'] ,$reg['guestWord'][$i])){
+        $word = removeDuplicateChar($reg['guestWord']);
+        for($i = 0; $i < strlen($word); $i++){
+          if(str_contains($reg['hostLetters'] ,$word[$i])){
            $x++;
           }
         }
@@ -212,8 +350,9 @@
         }
         return $y-$x;
       }else{
-        for($i = 0; $i < strlen($reg['hostWord']); $i++){
-          if(str_contains($reg['guestLetters'] ,$reg['hostWord'][$i])){
+        $word = removeDuplicateChar($reg['hostWord']);
+        for($i = 0; $i < strlen($word); $i++){
+          if(str_contains($reg['guestLetters'] ,$word[$i])){
             $x++;
           }
         }
@@ -221,9 +360,10 @@
         if(str_contains($reg['guestLetters'],'ñ')){
           $y--;
         }
-        return $y-$x;
+        return ($y-$x) ;
       }
     }
+
 
     /* Imprime letras encontradas  */
     function getLetters($state,$reg){
@@ -294,6 +434,39 @@
       <?php
     }
     
+    /* Imprime botones del tecldo desactivados */
+    function dissabledkeyboard($state, $reg){
+      if($state == 'host'){
+        $state = 'hostLetters';
+      }else{
+        $state = 'guestLetters';
+      };
+      echo "<div><button class='disabled'>Q</button><button class='disabled'>W</button><button class='disabled'>E</button><button class='disabled'>R</button><button class='disabled'>T</button><button class='disabled'>Y</button><button class='disabled'>U</button><button class='disabled'>I</button><button class='disabled'>O</button><button class='disabled'>P</button></div><div><button class='disabled'>A</button><button class='disabled'>S</button><button class='disabled'>D</button><button class='disabled'>F</button><button class='disabled'>G</button><button class='disabled'>H</button><button class='disabled'>J</button><button class='disabled'>K</button><button class='disabled'>L</button><button class='disabled'>Ñ</button></div><div><button class='disabled'>Z</button><button class='disabled'>X</button><button class='disabled'>C</button><button class='disabled'>V</button><button class='disabled'>B</button><button class='disabled'>N</button><button class='disabled'>M</button></div>";
+    }
+
+    /* Imprime vidas */
+    function printLives($state, $reg){
+      $lives = 7-getLives($state,$reg);
+      for($i = 0; $i < 7; $i++){
+        if($lives != 0){
+          echo "<img src='./img/h1.png'>";
+          $lives--;
+        }else{
+          echo "<img src='./img/h2.png'>";
+        }
+      }
+      
+      
+    }
+
+    /* Elimina letras duplicadas */
+    function removeDuplicateChar($word){
+      $x = [];
+      for($i = 0; $i < strlen($word);$i++){
+        array_push($x,$word[$i]);
+      }
+      return implode(array_unique($x));
+    }
   ?>
 </body>
 </html>

@@ -12,5 +12,5 @@ CREATE TABLE partides(
   hostLetters VARCHAR(100),
   guestLetters VARCHAR(100),
   turn VARCHAR(10),
-  winner INT
+  winner VARCHAR(10)
 );
