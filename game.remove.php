@@ -1,3 +1,4 @@
+<!-- Elimina partida y redirije a la pantalla de buscar partida -->
 <?php
   if(!isset($_REQUEST['username'])){
     Header('Location: signin.php');

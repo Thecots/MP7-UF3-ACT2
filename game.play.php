@@ -1,5 +1,6 @@
 <!-- PARTIDA -->
 <?php
+  /* middlewares */
   if(!isset($_REQUEST['username'])){
     Header('Location: signin.php');
   };
@@ -9,8 +10,7 @@
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -38,7 +38,7 @@
       }else{
         /* Introducir palabra */
         setWord($id,$username,$state);
-      }
+      };
     }else{
       if($reg['hostWord'] == null || $reg['guestWord'] == null){
         /* Esperando palabra de los jugadores */
@@ -48,7 +48,7 @@
         if(isset($_REQUEST['letter'])){
           /* Guarda letra + cambia de turno */
           setLetter($id,$username,$state, $_REQUEST['letter'],$reg);
-        }
+        };
         /* Mira si hay un ganador */
         if(checkWinner($id,$reg) == 0){
           if($reg['turn'] == $state){
@@ -59,11 +59,11 @@
             waiting($id,$reg);
           };
         }else{
+          /* Hay un ganador */
           winnerScreen($id,$reg);
-        }
-        
-      }
-    }
+        };
+      };
+    };
 
     /* Turno del jugador */
     function play($id,$reg){
@@ -98,7 +98,7 @@
             <div class="guestGame">
               <h1>RIVAL</h1>
               <div class="guestBoard">
-                <img src="./img/4.png">
+                <img src='./img/<?php echo getLives($_REQUEST['state'] == 'host' ? 'guest' : 'host',$reg); ?>.png'>
               </div>
               <div class="guestLetters">
                 <?php getLetters($_REQUEST['state'] == 'host' ? 'guest' : 'host',$reg) ?>
@@ -112,7 +112,7 @@
         </section>
       </main>
       <?php
-    }
+    };
 
     /* Jugador en espera */
     function waiting($id,$reg){
@@ -143,7 +143,7 @@
             <div class="guestGame">
               <h1>RIVAL</h1>
               <div class="guestBoard">
-                <img src="./img/4.png">
+                <img src='./img/<?php echo getLives($_REQUEST['state'] == 'host' ? 'guest' : 'host',$reg); ?>.png'>
               </div>
               <div class="guestLetters">
                 <?php getLetters($_REQUEST['state'] == 'host' ? 'guest' : 'host',$reg) ?>
@@ -221,7 +221,7 @@
             <div class="guestGame">
               <h1>RIVAL</h1>
               <div class="guestBoard">
-                <img src="./img/4.png">
+                <img src='./img/<?php echo getLives($_REQUEST['state'] == 'host' ? 'guest' : 'host',$reg); ?>.png'>
               </div>
               <div class="guestLetters">
                 <?php getLetters($_REQUEST['state'] == 'host' ? 'guest' : 'host',$reg) ?>
@@ -234,7 +234,7 @@
           </div>
         </section>
     <?php
-    }
+    };
 
     /* Selecinar una palabra */
     function setWord($id,$username,$state){
@@ -264,9 +264,9 @@
         </section>
       </main>
       <?php
-    }
+    };
 
-    /* Añade palabra */
+    /* Guarda palabra */
     function saveWord($id,$username,$state, $word){
       $word = strtolower($word);
       $con = mysqli_connect("localhost","daw_user","P@ssw0rd","ahorcado") or exit(mysqli_connect_error());
@@ -277,7 +277,7 @@
       }
       $result=mysqli_query($con, $sql) or exit(mysqli_error($con));
       Header('Location: game.play.php?username='.$username.'&id='.$id.'&state='.$state);
-    }
+    };
     
     /* Comprueba/añade letra + pasa de turno */
     function setLetter($id,$username,$state, $letter, $reg){
@@ -362,8 +362,7 @@
         }
         return ($y-$x) ;
       }
-    }
-
+    };
 
     /* Imprime letras encontradas  */
     function getLetters($state,$reg){
@@ -384,7 +383,7 @@
           }
         }
       }
-    }
+    };
     
     /* Imprime botones del teclado */
     function keyboard($state,$reg){
@@ -432,17 +431,13 @@
           <button onclick="window.location.href='game.play.php?username=<?php echo $_REQUEST['username']?>&id=<?php echo $_REQUEST['id']?>&state=<?php echo $_REQUEST['state']?>&letter=m'" <?php if(str_contains($reg[$state],'m')){echo 'class="disabled"';};; ?>>M</button>
       </div>
       <?php
-    }
+    };
     
     /* Imprime botones del tecldo desactivados */
     function dissabledkeyboard($state, $reg){
-      if($state == 'host'){
-        $state = 'hostLetters';
-      }else{
-        $state = 'guestLetters';
-      };
+      $state = $state == 'host' ? 'hostLetters' :  'guestLetters';
       echo "<div><button class='disabled'>Q</button><button class='disabled'>W</button><button class='disabled'>E</button><button class='disabled'>R</button><button class='disabled'>T</button><button class='disabled'>Y</button><button class='disabled'>U</button><button class='disabled'>I</button><button class='disabled'>O</button><button class='disabled'>P</button></div><div><button class='disabled'>A</button><button class='disabled'>S</button><button class='disabled'>D</button><button class='disabled'>F</button><button class='disabled'>G</button><button class='disabled'>H</button><button class='disabled'>J</button><button class='disabled'>K</button><button class='disabled'>L</button><button class='disabled'>Ñ</button></div><div><button class='disabled'>Z</button><button class='disabled'>X</button><button class='disabled'>C</button><button class='disabled'>V</button><button class='disabled'>B</button><button class='disabled'>N</button><button class='disabled'>M</button></div>";
-    }
+    };
 
     /* Imprime vidas */
     function printLives($state, $reg){
@@ -455,9 +450,7 @@
           echo "<img src='./img/h2.png'>";
         }
       }
-      
-      
-    }
+    };
 
     /* Elimina letras duplicadas */
     function removeDuplicateChar($word){
@@ -466,7 +459,7 @@
         array_push($x,$word[$i]);
       }
       return implode(array_unique($x));
-    }
+    };
   ?>
 </body>
 </html>

@@ -1,3 +1,4 @@
+<!-- Esperando a que un jugador se una -->
 <?php
   if(!isset($_REQUEST['username'])){
     Header('Location: signin.php');
