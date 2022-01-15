@@ -71,7 +71,7 @@
         <section class="game">
           <div class="board">
              <div class="img">
-              <?php getLivesImage($_REQUEST['state'],$reg); ?>
+              <img src='./img/<?php echo getLives($_REQUEST['state'],$reg); ?>.png'>
             </div>
             <div class="foundedLetters">
               <?php getLetters($_REQUEST['state'],$reg); ?>
@@ -197,11 +197,35 @@
       return 0;
     };
     
-    function getLivesImage($state,$reg){
-      echo "<img src='./img/0.png'>";
+    /* Devuelve número de vidas */
+    function getLives($state,$reg){
+      $x = 0;
+      if($state == 'host'){
+        for($i = 0; $i < strlen($reg['guestWord']); $i++){
+          if(str_contains($reg['hostLetters'] ,$reg['guestWord'][$i])){
+           $x++;
+          }
+        }
+        $y = strlen($reg['hostLetters'])-1;
+        if(str_contains($reg['hostLetters'],'ñ')){
+          $y--;
+        }
+        return $y-$x;
+      }else{
+        for($i = 0; $i < strlen($reg['hostWord']); $i++){
+          if(str_contains($reg['guestLetters'] ,$reg['hostWord'][$i])){
+            $x++;
+          }
+        }
+        $y = strlen($reg['guestLetters'])-1;
+        if(str_contains($reg['guestLetters'],'ñ')){
+          $y--;
+        }
+        return $y-$x;
+      }
     }
 
-
+    /* Imprime letras encontradas  */
     function getLetters($state,$reg){
       if($state == 'host'){
         for($i = 0; $i < strlen($reg['guestWord']); $i++){
@@ -222,6 +246,7 @@
       }
     }
     
+    /* Imprime botones del teclado */
     function keyboard($state,$reg){
         if($state == 'host'){
           $state = 'hostLetters';
